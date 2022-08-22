@@ -1,0 +1,7 @@
+1.18_jap/
+1.18_old/
+BTW/
+BTW_jap/
+input/
+output/
+texture_packs/

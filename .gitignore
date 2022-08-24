@@ -7,3 +7,5 @@ input/
 output/
 texture_packs/
 map_extra.csv
+scratch.py
+.idea/

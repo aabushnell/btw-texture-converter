@@ -2,19 +2,22 @@ import os
 import shutil
 import pandas as pd
 
-texture_map = pd.read_csv('map_final.csv', index_col=0)
+texture_map = pd.read_csv('maps.csv', index_col=0)
 
-input_file = 'texture_packs/Excalibur_V1.18.1'
-output_file = 'output'
+input_folder = 'texture_packs/Excalibur_V1.18.1'
+output_folder = 'output'
 
 for index, row in texture_map.iterrows():
-    oldpath = input_file + row['1.18_filepath'][4:]
-    newpath = output_file + row['BTW_filepath'][3:]
-    if os.path.exists(oldpath):
-        if not os.path.exists(os.path.dirname(newpath)):
-            os.makedirs(os.path.dirname(newpath))
-        shutil.copy(oldpath, newpath)
-    print(oldpath, newpath)
+    old_path = input_folder + row['vanilla_path']
+    new_path = output_folder + row['btw_path']
+    if os.path.exists(old_path):
+        if not os.path.exists(os.path.dirname(new_path)):
+            try:
+                os.makedirs(os.path.dirname(new_path))
+            except FileExistsError as e:
+                print(e)
+        shutil.copy(old_path, new_path)
+    print(old_path, new_path)
 
-with open(output_file + '/pack.txt', 'w') as pack:
+with open(output_folder + '/pack.txt', 'w') as pack:
     pack.write('Auto-Generated Textures for BTW!')

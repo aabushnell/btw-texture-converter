@@ -2,24 +2,26 @@ import os
 import imageio.v3 as iio
 import pandas as pd
 
-rootdir = os.getcwd()
+root_dir = os.getcwd()
 
-van_dict = {}
-btw_dict = {}
+input_dir = '/1.18'
+output_dir = '/BTW'
 
-for subdir, dirs, files in os.walk(rootdir + '/1.18'):
-    for file in files:
-        if file[-3:] == 'png':
-            van_dict[file[:-4]] = os.path.join(subdir[len(rootdir)+1:], file)
 
-for subdir, dirs, files in os.walk(rootdir + '/BTW'):
-    for file in files:
-        if file[-3:] == 'png':
-            btw_dict[file[:-4]] = os.path.join(subdir[len(rootdir)+1:], file)
+def scrape_textures(p):
+    d = {}
+    for subdir, dirs, files in os.walk(p):
+        for file in files:
+            if file[-3:] == 'png':
+                d[file[:-4]] = os.path.join(subdir[len(root_dir) + 1:], file)
+    return d
+
+vanilla_dict = scrape_textures(root_dir + input_dir)
+btw_dict = scrape_textures(root_dir + output_dir)
 
 mapping_dict = {'1.18_filename': [], 'BTW_filename': [], '1.18_filepath': [], 'BTW_filepath': []}
 
-for k_van, v_van in van_dict.items():
+for k_van, v_van in vanilla_dict.items():
     im_van = iio.imread(v_van)
     for k_btw, v_btw in btw_dict.items():
         im_btw = iio.imread(v_btw)
